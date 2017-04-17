@@ -1,6 +1,6 @@
 /*
  	Copyright 2013 Uniclau S.L. (www.uniclau.com)
- 	
+
   	This file is part of jbPivot.
 
     jbPivot is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ label {
 input[type=radio],
 input[type=checkbox] {
 	display: none;
-	
+
 }
 
 
@@ -108,9 +108,9 @@ cursor:pointer;
 .listbox p{
     display: block;
     text-decoration: none;
-    
+
     padding:8px 0;
-    
+
 }
 
 
@@ -133,4 +133,16 @@ border-right:#FFFFFF solid 1px;border-bottom:#CCCCCC 1px solid !important;
 
 .listbox p:hover{
     color: grey;
+}
+
+/* RP: todo: */
+
+div.data.stateO {
+  background-color: #ffffff !important;
+  border-color: #E6E6E6 !important;
+}
+
+div.data.stateX {
+  background-color: #ddd !important;
+  border-color: #fff !important;
 }

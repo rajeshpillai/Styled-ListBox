@@ -193,10 +193,6 @@ define( ["jquery", "text!./style.css","qlik"], function ( $, cssContent, qlik) {
 							}
 								}
 
-
-
-
-
 							}
 						}
 					}
@@ -221,13 +217,15 @@ define( ["jquery", "text!./style.css","qlik"], function ( $, cssContent, qlik) {
 			var SelectedCount =[];
 			this.backendApi.eachDataRow(function(rownum, row) {
 				Dim.push(row[0].qText);
-			} );
+			});
 
 			this.backendApi.eachDataRow(function(rownum, row) {
 			 if(row[0].qState=='S')
-			 SelectedCount.push(row[0].qText)
+			 	SelectedCount.push(row[0].qText)
+			});
 
-			 });
+			console.log("ALL: ", Dim);
+			console.log("SEL: ", SelectedCount);
 
 
 			if(layout.FixedNumberofColumn>Dim.length){
@@ -236,8 +234,7 @@ define( ["jquery", "text!./style.css","qlik"], function ( $, cssContent, qlik) {
 			else
 			{
 				var Noofval = layout.FixedNumberofColumn;
-
-				}
+			}
 
 			var Split=100/Noofval;
 
@@ -267,42 +264,42 @@ define( ["jquery", "text!./style.css","qlik"], function ( $, cssContent, qlik) {
 			//alert(selvalue);
 
 			this.backendApi.eachDataRow(function(rownum, row) {
-
-
-			if(Defaulthighlightvalue==row[0].qText && SelectedCount.length==0 && layout.Defaulthighlight==true)
-			{
-			var defaultstate = 'stateS';
-			self.backendApi.selectValues(0, [row[0].qElemNumber], true);
-			}
-			else
-			{
-				if(styletype=='listbox' && SelectedCount.length==0 && layout.Defaulthighlight==true)
-				var defaultstate = 'stateA';
+				if(Defaulthighlightvalue==row[0].qText && SelectedCount.length==0 && layout.Defaulthighlight==true)
+				{
+					var defaultstate = 'stateS';
+					self.backendApi.selectValues(0, [row[0].qElemNumber], true);
+				}
 				else
-				var defaultstate = '';
-			}
+				{
+					if(styletype=='listbox' && SelectedCount.length==0 && layout.Defaulthighlight==true)
+						var defaultstate = 'stateA';
+					else
+							var defaultstate = '';
+				}
 
-			 if(row[0].qState=='S')
-			 var checkedstatus ='checked="checked"';
-			 else
-			 var checkedstatus ='';
+				 var checkedstatus = '';
+				 if(row[0].qState=='S') {
+					 checkedstatus ='checked="checked"';
+					 console.log("RP: ", row[0].qText);
+				 }
+				 else {
+					 checkedstatus ='';
+				 }
 
-			if(styletype=='listbox')
-			{
-				html += '<p for="'+row[0].qText+'"' + style + ' class="'+defaultstate+' data state' + row[0].qState + '" data-value="' + row[0].qElemNumber + '">' + row[0].qText + '</p>';
+				//RP: NOTE: qState->Current Selection State
+				if(styletype=='listbox'){
+					html += '<p for="'+row[0].qText+'"' + style + ' class="'+defaultstate+' data state' + row[0].qState + '" data-value="' + row[0].qElemNumber + '">' + row[0].qText + '</p>';
+				}
+				else {
+					console.log("ROW.qState: ", row[0].qState);
+					html +='<div ' + style + ' class="data state' + row[0].qState + '" >'
+					html += '<input id="'+row[0].qText+'" '+checkedstatus+' type="'+styletype+'" name="'+layout.qInfo.qId+'" value="'+row[0].qText+'"' + style1 + ' class="'+defaultstate+' data state' + row[0].qState + '" data-value="' + row[0].qElemNumber + '">';
 
-			}
-			else
-			{
-				html +='<div ' + style + ' class="data state' + row[0].qState + '" >'
-				html += '<input id="'+row[0].qText+'" '+checkedstatus+' type="'+styletype+'" name="'+layout.qInfo.qId+'" value="'+row[0].qText+'"' + style1 + ' class="'+defaultstate+' data state' + row[0].qState + '" data-value="' + row[0].qElemNumber + '">';
-
-				html += '<label for="'+row[0].qText+'"' + style2 + ' class="'+defaultstate+' data state' + row[0].qState + '" data-value="' + row[0].qElemNumber + '">' + row[0].qText + '</label>';
-				html += '</div>';
-
-			}
-
+					html += '<label for="'+row[0].qText+'"' + style2 + ' class="'+defaultstate+' data state' + row[0].qState + '" data-value="' + row[0].qElemNumber + '">' + row[0].qText + '</label>';
+					html += '</div>';
+				}
 			});
+
 			html += "</div>";
 
 			$element.html(html);
@@ -320,24 +317,19 @@ define( ["jquery", "text!./style.css","qlik"], function ( $, cssContent, qlik) {
 					}
 				});
 
-
-
 				$element.find('p').on('qv-activate', function() {
 					if(this.hasAttribute("data-value")) {
 						var value = parseInt(this.getAttribute("data-value"), 10), dim = 0;
-							if(layout.Defaulthighlight==false)
-							self.backendApi.selectValues(dim, [value], true);
-							else
-							self.backendApi.selectValues(dim, [value], false);
-
+							if(layout.Defaulthighlight==false) {
+								self.backendApi.selectValues(dim, [value], true);
+							}
+							else {
+								self.backendApi.selectValues(dim, [value], false);
+							}
 					}
 				});
 			}
 
-
-
-
-
 			}
 	};
-} );
+});
