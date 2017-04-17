@@ -143,6 +143,18 @@ div.data.stateO {
 }
 
 div.data.stateX {
+  background-color: #A9A9A9 !important;
+  color: #fff !important;
+}
+
+div.data.stateA {
   background-color: #ddd !important;
   border-color: #fff !important;
 }
+
+div.data.stateS {
+  background-color: #52CC52 !important;
+  color: #fff !important;
+  border-bottom: 1px solid #BAEBBA;
+}
+
